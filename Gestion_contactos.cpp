@@ -11,8 +11,83 @@ El programa debe mantenerse en ejecución continuamente hasta que usuario indiqu
 #include <windows.h>
 using namespace std;
 
+const int tam=99;
+int cantCont=0;
+struct contactoEmail{
+	string nombres;
+	string sexo;
+	string edad;
+	string telefono;
+	string email;
+	string nacionalidad;
+};
+contactoEmail conEm[tam];
+
 void agregarContacto(){
-	
+	if(cantCont>=tam){
+        cout<<"Ya no se pueden agregar más contactos. Límite alcanzado~!!!";
+        return;
+    }
+    contactoEmail aniadir;
+    
+    cout<<"----- Añadir Contacto -----"<<endl<<endl;
+	cout<<"Ingrese el nombre los nombres completos de la persona: ";
+	cin.ignore();
+	getline(cin, aniadir.nombres);
+	do{
+    	cout<<endl<<"Ingrese el sexo (M/F): ";
+    	getline(cin, aniadir.sexo);
+    	if(aniadir.sexo!="M" && aniadir.sexo!="F" && aniadir.sexo!="m" && aniadir.sexo!="f"){
+    	    cout<<"Error al momento de guardar dato. Solo se acepta 'M' o 'F' !!!"<<endl;
+    	}
+	}while(aniadir.sexo!="M" && aniadir.sexo!="F" && aniadir.sexo!="m" && aniadir.sexo!="f");
+    int salirE=0;
+	do{	
+		salirE=1;
+		cout<<endl<<"Ingrese la edad: ";
+   		cin>>aniadir.edad;
+    	cin.ignore();
+    	for(char c:aniadir.edad){
+	        if(!isdigit(c)){
+	            cout<<"La edad tiene que ser solo con números!!!"<<endl;
+	            salirE=0;
+	            break;
+	        }
+        }
+	}while(salirE!=1);
+	int salirT=0;
+	do{
+		salirT=1;
+	    cout<<endl<<"Ingrese el teléfono: ";
+    	getline(cin, aniadir.telefono);
+		int tamTel=aniadir.telefono.length();
+	    if(tamTel!=9){
+	        cout<<"El telefono tiene que tener 9 dígitos!!!"<<endl;
+	        salirT=0;
+	        continue;
+	    }
+	    for(char c:aniadir.telefono){
+        if(!isdigit(c)){
+            cout<<"El teléfono solo debe contener números!!!"<<endl;
+            salirT=0;
+            break;
+        }
+    }
+	}while(salirT!=1);    
+    do{
+	    cout<<endl<<"Ingrese el Email: ";
+    	getline(cin, aniadir.email);
+	    if(aniadir.email.find('@')==string::npos){
+	        cout<<"Email incorrecto. Debe contener un '@' para ser considerado!!!"<<endl;
+	    }
+	}while(aniadir.email.find('@')==string::npos);
+    cout<<endl<<"Ingrese la nacionalidad: ";
+    getline(cin, aniadir.nacionalidad);
+	conEm[cantCont]=aniadir;
+    cantCont++;
+    cout<<endl<<"El contacto se añadio correctamente, regresando al menu..."<<endl;
+    Sleep(2000);
+    system("cls");
 }
 
 void eliminarContacto(){
@@ -30,9 +105,10 @@ void mostrarListadoExistentes(){
 int main(){
 	SetConsoleOutputCP(CP_UTF8);
 	int opcion;
+	
 	do{
 		cout<< "-----Gestor de contactos-----"<<endl<<endl;
-		cout<<"Seleccione la opcion que desea realizar en el programa:"<<endl;
+		cout<<"Elija la opcion que desea realizar en el programa:"<<endl;
 		cout<<"1) Agregar un nuevo contacto"<<endl;
 		cout<<"2) Eliminar un contacto existente"<<endl;
 		cout<<"3) Mostrar todos los contactos guardados"<<endl;
@@ -44,7 +120,8 @@ int main(){
 		
 		switch(opcion){
 			case 1:{
-				//void agregarContacto
+				system("cls");
+				agregarContacto();
 				break;
 			}
 			case 2:{
