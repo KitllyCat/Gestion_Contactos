@@ -13,6 +13,7 @@ using namespace std;
 
 const int tam=99;
 int cantCont=0;
+int indice;
 struct contactoEmail{
 	string nombres;
 	string sexo;
@@ -26,6 +27,8 @@ contactoEmail conEm[tam];
 void agregarContacto(){
 	if(cantCont>=tam){
         cout<<"Ya no se pueden agregar más contactos. Límite alcanzado~!!!";
+        Sleep(2000);
+        system("cls");
         return;
     }
     contactoEmail aniadir;
@@ -91,6 +94,31 @@ void agregarContacto(){
 }
 
 void eliminarContacto(){
+	if(cantCont==0){
+        cout<<"Ya no existen contactos, no se puede eliminar más!!!";
+        Sleep(2000);
+        system("cls");
+        return;
+    }
+	cout<<"----- Eliminar contacto -----"<<endl<<endl;
+	cout<<"Ingrese el numero de orden del contacto a eliminar(Índice): ";
+	cin>>indice;
+	cin.ignore();
+	indice=indice-1;	
+	if(indice>=0 && indice<cantCont){
+		for(int i=indice;i<cantCont-1;i++){
+			conEm[i]=conEm[i+1];
+		}
+	}else{
+		cout<<"El número es incorrecto o inexistente. Regresando al menú..."<<endl;
+        Sleep(2000);
+        system("cls");
+        return;
+	}
+	cantCont--;
+	cout<<"Contacto eliminado correctamente, regresando al menu...";
+    Sleep(2000);
+    system("cls");
 	
 }
 
@@ -125,7 +153,8 @@ int main(){
 				break;
 			}
 			case 2:{
-				//void eliminarContacto
+				system("cls");
+				eliminarContacto();
 				break;
 			}
 			case 3:{
