@@ -119,11 +119,30 @@ void eliminarContacto(){
 	cout<<"Contacto eliminado correctamente, regresando al menu...";
     Sleep(2000);
     system("cls");
-	
 }
 
 void mostrarListadoRegistrados(){
-	
+	if(cantCont==0){
+        cout<<"No existen contactos que se puedan mostrar!!!";
+        Sleep(2000);
+        system("cls");
+        return;
+    }
+    cout<<"----- Listado general de contactos -----"<<endl<<endl;
+    for(int i=0;i<cantCont;i++){
+    	cout<<i+1<<"._ Contacto:"<<endl<<endl;
+        cout<<"Nombre: "<<conEm[i].nombres<<endl;
+        cout<<"Sexo: "<<conEm[i].sexo<<endl;
+        cout<<"Edad: "<<conEm[i].edad<<endl;
+        cout<<"Teléfono: "<<conEm[i].telefono<<endl;
+        cout<<"Email: "<<conEm[i].email<<endl;
+        cout<<"Nacionalidad: "<<conEm[i].nacionalidad<<endl;
+        cout<<"----------------------------------"<<endl<<endl;
+	}
+	cout<<"Presione enter para volver al menu principal...";
+	cin.ignore();
+	cin.get();
+	system("cls");
 }
 
 void mostrarListadoExistentes(){
@@ -158,7 +177,8 @@ int main(){
 				break;
 			}
 			case 3:{
-				//void mostrarListadoRegistrados
+				system("cls");
+				mostrarListadoRegistrados();
 				break;
 			}
 			case 4:{
