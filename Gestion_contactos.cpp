@@ -137,22 +137,61 @@ void mostrarListadoRegistrados(){
         cout<<"Teléfono: "<<conEm[i].telefono<<endl;
         cout<<"Email: "<<conEm[i].email<<endl;
         cout<<"Nacionalidad: "<<conEm[i].nacionalidad<<endl;
-        cout<<"----------------------------------"<<endl<<endl;
+        cout<<endl<<"----------------------------------"<<endl<<endl;
 	}
-	cout<<"Presione enter para volver al menu principal...";
+	cout<<endl<<"Presione enter para volver al menu principal...";
 	cin.ignore();
 	cin.get();
 	system("cls");
 }
 
+string obtDom(const string& email){
+    size_t pos=email.find('@');
+    if (pos!=string::npos){
+        return email.substr(pos+1);
+    }
+    return "";
+}
+
 void mostrarListadoExistentes(){
-	
+	if(cantCont==0){
+        cout<<"No existen contactos que se puedan mostrar!!!";
+        Sleep(2000);
+        system("cls");
+        return;
+    }
+    contactoEmail conEm2[tam];
+    for(int i=0;i<cantCont;i++){
+        conEm2[i]=conEm[i];
+    }
+    for(int i=0;i<cantCont-1;i++){
+        for (int j=0;j<cantCont-i-1;j++){
+        	string dom1, dom2;
+            dom1=obtDom(conEm2[j].email);
+            dom2=obtDom(conEm2[j+1].email);
+            if (dom1>dom2){
+                contactoEmail aux=conEm2[j];
+                conEm2[j]=conEm2[j+1];
+                conEm2[j+1]=aux;
+            }
+        }
+    }  
+    cout<<"----- Listado general de contactos -----"<<endl<<endl;
+    for(int i=0;i<cantCont;i++){
+        cout<<i+1<<"._ Contacto:"<<endl<<endl;
+        cout<<"Nombre: "<<conEm2[i].nombres<<endl;
+        cout<<"Email: "<<conEm2[i].email<<" (Dominio(@): "<<obtDom(conEm2[i].email)<<")"<<endl;
+        cout<<endl<<"----------------------------------"<<endl<<endl;
+    }
+    cout<<endl<<"Presione enter para volver al menu principal...";
+	cin.ignore();
+	cin.get();
+	system("cls");
 }
 
 int main(){
 	SetConsoleOutputCP(CP_UTF8);
 	int opcion;
-	
 	do{
 		cout<< "-----Gestor de contactos-----"<<endl<<endl;
 		cout<<"Elija la opcion que desea realizar en el programa:"<<endl;
@@ -182,7 +221,8 @@ int main(){
 				break;
 			}
 			case 4:{
-				//void mostrarListadoExistentes
+				system("cls");
+				mostrarListadoExistentes();
 				break;
 			}
 			case 5:{
@@ -198,6 +238,5 @@ int main(){
 			}
 		}
 	}while(opcion!=5);
-	
 	return 0;
 }
